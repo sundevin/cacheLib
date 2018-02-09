@@ -1,0 +1,37 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 26
+
+
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+def dbflow_version = "4.2.4"
+dependencies {
+    // if Java use this. If using Kotlin do NOT use this.
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+
+    api "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    api "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+
+    implementation 'com.google.code.gson:gson:2.8.2'
+
+}
+apply from: "maven.gradle"
