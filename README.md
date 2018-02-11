@@ -1,13 +1,13 @@
 # 一个轻量的数据缓存库
 ---
-[ ![Download](https://api.bintray.com/packages/sundevin/cacheLib/cache_lib/images/download.svg) ](https://bintray.com/sundevin/cacheLib/cache_lib/_latestVersion)
-##说明
-缓存库是通过 [DBFlow](https://github.com/Raizlabs/DBFlow) 实现,内部生成一个简单的缓存表，用于管理缓存。
+[ ![Download](https://api.bintray.com/packages/sundevin/cacheLib/cache_lib/images/download.svg) ](https://bintray.com/sundevin/cacheLib/cache_lib/_latestVersion)  
+## 说明  
+缓存库是通过 [DBFlow](https://github.com/Raizlabs/DBFlow) 实现,内部生成一个简单的缓存表，用于管理缓存。  
 由于 `DBFlow` 数据库创建方式的限制，暂不提供数据库升级。  
 如果需要复杂的数据管理，需要自己集成相关的 ORM 框架。
 
-##使用
-###集成
+## 使用  
+### 集成  
 1，在项目的 `build.gradle` 内加入 `maven` 地址，如下：
 ```
 allProjects {
@@ -42,19 +42,19 @@ dependencies {
     }
 ```
 ### 缓存管理
-####保存数据
+#### 保存数据
 ```
 //在保存数据时，如果存在旧数据，则覆盖，覆盖数据时如果未指定有效时间，则会以覆盖时间为起点，以旧数据指定的有效时间重新计算到期时间；如果不存在，则新增数据。
 CacheManager.save();
 ```
-####删除数据
+#### 删除数据
 ```
 //删除指定的数据
 CacheManager.delete();
 //删除所有无效的数据，可以用来清理无效数据。
 CacheManager.deleteAllInvalid();
 ```
-####查询数据
+#### 查询数据
 ```
 //查询数据是否存在(记录在，但数据不一定是在有效期内)
 CacheManager.exists();
