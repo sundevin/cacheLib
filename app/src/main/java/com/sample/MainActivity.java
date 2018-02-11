@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private String primaryKey = "http://www.baidu.com";
+    private String primaryKey = "testPrimaryKey";
 
     public void add(View view) {
         boolean b = CacheManager.save(primaryKey, goodsBean, 60 * 1000);

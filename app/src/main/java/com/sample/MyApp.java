@@ -18,13 +18,6 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         UtilManager.init(this);
-
         DBManager.init(this,"TestDB",-1);
-
-//        FlowManager.init(FlowConfig.builder(this)
-//                .addDatabaseConfig(DatabaseConfig.builder(AppDatabase.class)
-//                        .databaseName("AppDatabase")
-//                        .build())
-//                .build());
     }
 }
