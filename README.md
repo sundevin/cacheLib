@@ -2,7 +2,7 @@
 ---
 [ ![Download](https://api.bintray.com/packages/sundevin/cacheLib/cache_lib/images/download.svg) ](https://bintray.com/sundevin/cacheLib/cache_lib/_latestVersion)  
 ## 说明  
-缓存库是通过 [DBFlow](https://github.com/Raizlabs/DBFlow) 实现,内部生成一个简单的缓存表，用于管理缓存。  
+缓存库是通过 [DBFlow](https://github.com/Raizlabs/DBFlow) 实现,内部生成一个简单的缓存表，可以直接存取数据对象，用于管理缓存。  
 由于 `DBFlow` 数据库创建方式的限制，暂不提供数据库升级。  
 如果需要复杂的数据管理，需要自己集成相关的 ORM 框架。
 
