@@ -18,6 +18,6 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         UtilManager.init(this);
-        DBManager.init(this,"TestDB",-1);
+        DBManager.init(this,"TestDB");
     }
 }

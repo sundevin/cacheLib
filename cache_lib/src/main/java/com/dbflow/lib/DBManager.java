@@ -17,17 +17,15 @@ public class DBManager {
 
     //dbflow,Ormlite,realm android,greendao,xutils3,room
 
-    private static long cacheEffective;
 
     /**
      * 初始化数据库
      *
      * @param context
-     * @param dbName             数据库名称
-     * @param effective 缓存数据的有效期，在存储单条数据时也可单独设置  单位：毫秒，-1表示永久有效
+     * @param dbName  数据库名称
      */
-    public static void init(Context context, String dbName, long effective) {
-        DBManager.cacheEffective = effective;
+    public static void init(Context context, String dbName) {
+
         FlowManager.init(FlowConfig.builder(context.getApplicationContext())
                 .addDatabaseConfig(DatabaseConfig.builder(AppDatabase.class)
                         .databaseName(dbName)
@@ -35,7 +33,5 @@ public class DBManager {
                 .build());
     }
 
-    public static long getCacheEffective() {
-        return cacheEffective;
-    }
+
 }

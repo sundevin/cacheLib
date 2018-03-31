@@ -1,6 +1,5 @@
 package com.dbflow.lib.cache;
 
-import com.dbflow.lib.DBManager;
 import com.google.gson.Gson;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -23,7 +22,6 @@ public class CacheManager {
      */
     private static final long PERMANENT_VALIDITY = -1L;
 
-    private static long cacheEffective = DBManager.getCacheEffective();
 
     private static <T> String toStr(T t) {
         return gson.toJson(t);
@@ -45,7 +43,7 @@ public class CacheManager {
 
 
     /**
-     * 保存一个对象
+     * 保存一个对象(永久有效)
      *
      * @param primaryKey 主键
      * @param t          需要保存到数据库的对象
@@ -54,20 +52,15 @@ public class CacheManager {
      */
     public static <T> boolean save(String primaryKey, T t) {
 
-        if (exists(primaryKey)) {
-            CacheWrapper cacheWrapper = select(primaryKey);
-            return save(primaryKey, t, cacheWrapper.getEffective());
-        } else {
-            return save(primaryKey, t, cacheEffective);
-        }
+        return save(primaryKey, t, PERMANENT_VALIDITY);
     }
 
 
     /**
      * 保存对象到数据库
-     *
-     * @param primaryKey 主键
-     * @param t          需要保存到数据库的对象
+     * @param primaryKey
+     * @param t
+     * @param cacheEffective 有效期 毫秒单位
      * @param <T>
      * @return
      */
@@ -116,7 +109,8 @@ public class CacheManager {
             return false;
         }
 
-        if (dbWrapBean.getEffective() + dbWrapBean.getUpdateTime() < System.currentTimeMillis() && dbWrapBean.getEffective() != PERMANENT_VALIDITY) {
+        if (dbWrapBean.getEffective() + dbWrapBean.getUpdateTime() < System.currentTimeMillis()
+                && dbWrapBean.getEffective() != PERMANENT_VALIDITY) {
             return false;
         }
 
@@ -189,8 +183,6 @@ public class CacheManager {
 
         return null;
     }
-
-
 
 
     /**
