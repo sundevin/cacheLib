@@ -4,6 +4,7 @@ import com.dbflow.lib.DBManager;
 import com.google.gson.Gson;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -122,6 +123,24 @@ public class CacheManager {
         return true;
     }
 
+    public static String selectValid(String primaryKey) {
+
+        CacheWrapper dbWrapBean = SQLite.select().from(CacheWrapper.class)
+                .where(CacheWrapper_Table.key.eq(primaryKey),
+                        CacheWrapper_Table.dataJson.isNotNull())
+                .querySingle();
+
+        if (dbWrapBean == null) {
+            return null;
+        }
+
+        if (dbWrapBean.getEffective() + dbWrapBean.getUpdateTime() < System.currentTimeMillis()
+                && dbWrapBean.getEffective() != PERMANENT_VALIDITY) {
+            return null;
+        }
+
+        return dbWrapBean.getDataJson();
+    }
 
     /**
      * 查询一条有效的数据
@@ -132,25 +151,47 @@ public class CacheManager {
      * @return
      */
     public static <T> T selectValid(String primaryKey, Class<T> cls) {
+        String s = selectValid(primaryKey);
 
-        CacheWrapper dbWrapBean = SQLite.select().from(CacheWrapper.class)
-                .where(CacheWrapper_Table.key.eq(primaryKey), CacheWrapper_Table.dataJson.isNotNull())
-                .querySingle();
-
-        if (dbWrapBean == null) {
+        if (s == null) {
             return null;
         }
 
-        if (dbWrapBean.getEffective() + dbWrapBean.getUpdateTime() < System.currentTimeMillis() && dbWrapBean.getEffective() != PERMANENT_VALIDITY) {
-            return null;
-        }
         try {
-            return gson.fromJson(dbWrapBean.getDataJson(), cls);
+            return gson.fromJson(s, cls);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
+
+    /**
+     * 查询一条有效的数据
+     *
+     * @param primaryKey
+     * @param typeOfT
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> selectValid(String primaryKey, Type typeOfT) {
+
+        String s = selectValid(primaryKey);
+
+        if (s == null) {
+            return null;
+        }
+
+        try {
+            return gson.fromJson(s, typeOfT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
+
 
     /**
      * 删除所有无效数据
